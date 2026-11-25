@@ -21,10 +21,10 @@
 <header class="shell nav"><a class="brand" href="#top" aria-label="書路首頁"><span class="brand-mark">書</span><span class="brand-name">書路<small>BOOKWAY</small></span></a><nav class="navlinks" aria-label="主選單"><a href="#results">跨館找書</a><button id="openLibraries">圖書館總覽</button><button id="openSaved">我的圖書館</button><button class="nav-cta" id="openBackup">設定備份</button><button class="nav-cta" id="googleSignInBtn" type="button">使用 Google 登入</button><button id="signOutBtn" type="button" hidden>登出</button></nav></header>
 <main id="top"><section class="shell hero"><div class="eyebrow">TAIWAN LIBRARY SEARCH</div><h1>想讀的書，<em>不只一個地方找。</em></h1><p>一次搜尋全台公共與大學圖書館，看看哪裡有你想讀的那一本。</p><form class="searchbox" id="searchForm"><span class="search-icon" aria-hidden="true">⌕</span><input id="query" type="search" placeholder="輸入書名、作者或 ISBN…" aria-label="搜尋書名、作者或 ISBN"><button class="search-btn" type="submit">搜尋館藏</button></form><div class="quick-search">試試看：<button type="button" data-query="美麗新世界">美麗新世界</button><button type="button" data-query="原子習慣">原子習慣</button><button type="button" data-query="小王子">小王子</button></div></section>
 <section class="content" id="results"><div class="shell"><div class="results-top"><div class="results-title"><div class="eyebrow">SEARCH RESULTS</div><h2 id="resultHeading">為你找到 <span>美麗新世界</span></h2></div><div class="results-meta"><span><i class="update-dot"></i> 全台館藏探索</span><label>排序 <select class="sort-select" id="sortSelect" aria-label="排序結果"><option value="available">可借優先</option><option value="name">圖書館名稱</option><option value="format">依書籍類型</option></select></label></div></div><div class="filters" role="group" aria-label="館藏類型篩選"><div class="filter-list"><button class="filter-chip active" data-filter="all">全部館藏 <span id="countAll"></span></button><button class="filter-chip" data-filter="physical">實體書</button><button class="filter-chip" data-filter="ebook">電子書</button><button class="filter-chip" data-filter="available">目前可借</button></div><span class="availability-note">館藏狀態以各館目錄即時資訊為準</span></div><div id="cards" class="cards" aria-live="polite"></div><div class="footer-note"><strong>資料說明：</strong>可輸入任意書名、作者或 ISBN 搜尋，但目前館藏清單只是示範資料，不是全台即時目錄。正式服務需串接公共圖書館共用資料庫、NBINet 與大學館目錄（如 MetaCat+），取得授權或介接方式後，才能回傳實際館藏。借閱狀態與資格以各館官方資訊為準。</div></div></section></main>
-<div class="overlay" id="authSetupModal" role="dialog" aria-modal="true" aria-labelledby="authSetupTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="authSetupTitle">Google 登入尚待設定</h2><div class="dialog-sub">需先建立 Firebase 專案並啟用 Google 登入供應商。</div></div><button class="close" data-close aria-label="關閉">×</button></div><div class="field"><label>Firebase 設定狀態</label><div id="authStatus" aria-live="polite">Firebase 尚未設定。建立專案、註冊 Web App，並將 Firebase 設定值填入網站後才能登入。</div></div><ol><li>在 Firebase Console 建立專案並新增 Web App。</li><li>Authentication → Sign-in method → 啟用 Google。</li><li>Authentication → Settings → Authorized domains，加入 GitHub Pages 網域。</li><li>將 Web App 的 Firebase 設定值填入網站程式碼。</li></ol><div class="dialog-footer">Google 登入只負責驗證身分；目前不會把使用者的圖書館設定同步到雲端，也不會收集圖書館密碼。</div></div></div><div class="overlay" id="libraryModal" role="dialog" aria-modal="true" aria-labelledby="libraryTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="libraryTitle">圖書館總覽</h2><div class="dialog-sub">查看已整理的圖書館登入方式、借閱資格與官方辦證入口。</div></div><button class="close" data-close aria-label="關閉">×</button></div><div class="field"><label for="librarySearch">搜尋圖書館名稱</label><input id="librarySearch" type="search" placeholder="例如：中央大學、臺北市立圖書館" autocomplete="off"></div><div class="tabs" role="tablist"><button class="tab active" data-libtab="public">公共圖書館</button><button class="tab" data-libtab="university">大學圖書館</button><button class="tab" data-libtab="all">全部</button></div><div class="library-list" id="libraryList"></div><div class="dialog-footer">點選「我的圖書館」可查看已整理的登入方式與借閱資格。每項規定均提供官方查證入口。</div></div></div>
-<div class="overlay" id="accessModal" role="dialog" aria-modal="true" aria-labelledby="accessTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="accessTitle">登入方式與借閱資格</h2><div class="dialog-sub" id="accessLibrary"></div></div><button class="close" data-close aria-label="關閉">×</button></div><div id="accessDetails"></div><div class="form-actions"><a id="accessOfficial" class="primary-btn" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none">前往官方圖書館入口 ↗</a></div><div class="dialog-footer">實際資格與登入方式可能變動，請以官方頁面為準。示範館藏狀態不代表即時可借。</div></div></div><div class="overlay" id="savedModal" role="dialog" aria-modal="true" aria-labelledby="savedTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="savedTitle">我的圖書館</h2><div class="dialog-sub">僅在此瀏覽器儲存登入入口、帳號格式與個人提示，不保存密碼。</div></div><button class="close" data-close aria-label="關閉">×</button></div><div class="saved-list" id="savedList"></div><button class="outline-btn" id="addLibrary" style="margin-top:12px">＋ 新增圖書館</button><div class="dialog-footer">資料僅保存在目前裝置的瀏覽器。請勿在提示中輸入密碼、身分證號或其他敏感資訊。</div></div></div>
-<div class="overlay" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="editTitle">新增圖書館</h2><div class="dialog-sub">整理登入時會用到的提示，絕不要求輸入密碼。</div></div><button class="close" data-close aria-label="關閉">×</button></div><form id="libraryForm"><input id="editId" type="hidden"><div class="field"><label for="libName">圖書館名稱</label><input id="libName" required placeholder="例如：國立臺灣大學圖書館"></div><div class="field"><label for="libUrl">登入／館藏網址</label><input id="libUrl" type="url" required placeholder="https://..."></div><div class="field"><label for="accountFormat">帳號格式或提示</label><input id="accountFormat" placeholder="例如：學號（僅記格式，不填實際帳號）"></div><div class="field"><label for="personalHint">個人提示（請勿填密碼）</label><textarea id="personalHint" placeholder="例如：使用學校信箱帳號；忘記密碼到校務入口重設"></textarea></div><div class="form-actions"><button type="button" class="text-btn" data-close>取消</button><button class="primary-btn" type="submit">儲存設定</button></div></form></div></div>
-<div class="overlay" id="backupModal" role="dialog" aria-modal="true" aria-labelledby="backupTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="backupTitle">設定備份與還原</h2><div class="dialog-sub">備份我的圖書館清單，在另一台裝置匯入。</div></div><button class="close" data-close aria-label="關閉">×</button></div><p style="font-size:12px;color:#66736a;margin:0 0 16px">備份包含登入網址、帳號格式與個人提示；不包含密碼。匯出的 JSON 檔可能含個人資訊，請妥善保管。</p><div class="form-actions" style="justify-content:flex-start;margin-top:0"><button class="primary-btn" id="exportBtn" type="button">下載備份檔</button><label class="text-btn" for="importFile" style="cursor:pointer">匯入備份檔</label><input id="importFile" type="file" accept=".json,application/json" hidden></div><div class="dialog-footer" id="backupStatus" aria-live="polite">匯入時會以備份內容取代目前這個瀏覽器中的清單。</div></div></div>
+<div class="overlay" id="authSetupModal" role="dialog" aria-modal="true" aria-labelledby="authSetupTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="authSetupTitle">Google 登入尚待設定</h2><div class="dialog-sub">需先建立 Firebase 專案並啟用 Google 登入供應商。</div></div><button class="close" data-close aria-label="關閉">×</button></div><div class="field"><label>Firebase 設定狀態</label><div id="authStatus" aria-live="polite">Firebase 尚未設定。建立專案、註冊 Web App，並將 Firebase 設定值填入網站後才能登入。</div></div><ol><li>在 Firebase Console 建立專案並新增 Web App。</li><li>Authentication → Sign-in method → 啟用 Google。</li><li>Authentication → Settings → Authorized domains，加入 GitHub Pages 網域。</li><li>將 Web App 的 Firebase 設定值填入網站程式碼。</li></ol><div class="dialog-footer">Google 登入只負責驗證身分；登入後會同步圖書館設定，但不會收集圖書館密碼。</div></div></div><div class="overlay" id="libraryModal" role="dialog" aria-modal="true" aria-labelledby="libraryTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="libraryTitle">圖書館總覽</h2><div class="dialog-sub">查看已整理的圖書館登入方式、借閱資格與官方辦證入口。</div></div><button class="close" data-close aria-label="關閉">×</button></div><div class="field"><label for="librarySearch">搜尋圖書館名稱</label><input id="librarySearch" type="search" placeholder="例如：中央大學、臺北市立圖書館" autocomplete="off"></div><div class="tabs" role="tablist"><button class="tab active" data-libtab="public">公共圖書館</button><button class="tab" data-libtab="university">大學圖書館</button><button class="tab" data-libtab="all">全部</button></div><div class="library-list" id="libraryList"></div><div class="dialog-footer">點選「我的圖書館」可查看已整理的登入方式與借閱資格。每項規定均提供官方查證入口。</div></div></div>
+<div class="overlay" id="accessModal" role="dialog" aria-modal="true" aria-labelledby="accessTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="accessTitle">登入方式與借閱資格</h2><div class="dialog-sub" id="accessLibrary"></div></div><button class="close" data-close aria-label="關閉">×</button></div><div id="accessDetails"></div><div class="form-actions"><a id="accessOfficial" class="primary-btn" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none">前往官方圖書館入口 ↗</a></div><div class="dialog-footer">實際資格與登入方式可能變動，請以官方頁面為準。示範館藏狀態不代表即時可借。</div></div></div><div class="overlay" id="savedModal" role="dialog" aria-modal="true" aria-labelledby="savedTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="savedTitle">我的圖書館</h2><div class="dialog-sub">登入後同步保存登入入口、帳號格式與個人提示；未登入時僅存在此瀏覽器，不保存密碼。</div></div><button class="close" data-close aria-label="關閉">×</button></div><div class="saved-list" id="savedList"></div><button class="outline-btn" id="addLibrary" style="margin-top:12px">＋ 新增圖書館</button><div class="dialog-footer">登入後清單會同步至你的 Firebase 帳號。請勿在提示中輸入密碼、身分證號或其他敏感資訊。</div></div></div>
+<div class="overlay" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="editTitle">新增圖書館</h2><div class="dialog-sub">整理登入時會用到的提示，絕不要求輸入密碼。</div></div><button class="close" data-close aria-label="關閉">×</button></div><form id="libraryForm"><input id="editId" type="hidden"><div class="field"><label for="libName">圖書館名稱</label><input id="libName" maxlength="120" required placeholder="例如：國立臺灣大學圖書館"></div><div class="field"><label for="libUrl">登入／館藏網址</label><input id="libUrl" type="url" maxlength="2048" required placeholder="https://..."></div><div class="field"><label for="accountFormat">帳號格式或提示</label><input id="accountFormat" maxlength="200" placeholder="例如：學號（僅記格式，不填實際帳號）"></div><div class="field"><label for="personalHint">個人提示（請勿填密碼）</label><textarea id="personalHint" maxlength="1000" placeholder="例如：使用學校信箱帳號；忘記密碼到校務入口重設"></textarea></div><div class="form-actions"><button type="button" class="text-btn" data-close>取消</button><button class="primary-btn" type="submit">儲存設定</button></div></form></div></div>
+<div class="overlay" id="backupModal" role="dialog" aria-modal="true" aria-labelledby="backupTitle"><div class="dialog"><div class="dialog-header"><div><h2 id="backupTitle">設定備份與還原</h2><div class="dialog-sub">備份我的圖書館清單，在另一台裝置匯入。</div></div><button class="close" data-close aria-label="關閉">×</button></div><p style="font-size:12px;color:#66736a;margin:0 0 16px">備份包含登入網址、帳號格式與個人提示；不包含密碼。匯出的 JSON 檔可能含個人資訊，請妥善保管。</p><div class="form-actions" style="justify-content:flex-start;margin-top:0"><button class="primary-btn" id="exportBtn" type="button">下載備份檔</button><label class="text-btn" for="importFile" style="cursor:pointer">匯入備份檔</label><input id="importFile" type="file" accept=".json,application/json" hidden></div><div class="dialog-footer" id="backupStatus" aria-live="polite">匯入時會以備份內容取代目前帳號的圖書館清單。</div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 const demoRecords=[
@@ -64,22 +64,32 @@ const accessGuide={
 document.addEventListener('click',e=>{const quick=e.target.closest('[data-library-detail]');if(quick){const name=quick.dataset.libraryDetail;const card=document.querySelector('[data-detail=\"'+CSS.escape(name)+'\"]');if(card){openModal('libraryModal');document.getElementById('libraryModal').classList.remove('open');card.click();return}const g=accessGuide[name];if(g){document.getElementById('accessLibrary').textContent=name;document.getElementById('accessDetails').innerHTML='<div class=\"field\"><label>登入方式</label><div>'+escapeHtml(g.account)+'</div></div><div class=\"field\"><label>符合資格與借閱提醒</label><div>'+escapeHtml(g.eligibility)+'</div></div>';document.getElementById('accessOfficial').href=g.url;openModal('accessModal')}else window.open(libraryEntries.find(x=>x.name===name)?.url||'#','_blank','noopener');return}const b=e.target.closest('[data-detail]');if(!b)return;const name=b.dataset.detail,r=demoRecords.find(x=>x.library===name),g=accessGuide[name]||{account:'請使用該館官方登入頁所列的機構帳號或借閱證號。',eligibility:'校外人士資格依各大學圖書館規定不同，可能限師生、校友、合作館讀者或需另申借閱證。入館閱覽不代表可借書或使用電子資源。',url:r?.url||'#'};document.getElementById('accessLibrary').textContent=name;document.getElementById('accessDetails').innerHTML='<div class="field"><label>登入方式</label><div>'+escapeHtml(g.account)+'</div></div><div class="field"><label>符合資格與借閱提醒</label><div>'+escapeHtml(g.eligibility)+'</div></div><div class="footer-note">此網站整理的是官方登入與資格導引；書籍可借狀態仍請以各館目錄為準。</div>';document.getElementById('accessOfficial').href=g.url;openModal('accessModal')});// Firebase Web Auth (Google): configure in Firebase Console and replace the placeholders below.
 const FIREBASE_CONFIG=window.BOOKWAY_FIREBASE_CONFIG||{apiKey:'AIzaSyB4JxtZeT2ix8a-FnWLpbfMz_xeEeapklk',authDomain:'bookway-1f1d9.firebaseapp.com',projectId:'bookway-1f1d9',storageBucket:'bookway-1f1d9.firebasestorage.app',messagingSenderId:'660474404049',appId:'1:660474404049:web:ee5a7fbc1d41c87a4939f0'};
 const firebaseReady=Object.values(FIREBASE_CONFIG).every(v=>v&&!v.startsWith('YOUR_'));
-let firebaseAuth=null;
-let currentUser=null;
-let authApi=null;
+const FIREBASE_SDK_VERSION='12.13.0';
+const FIRESTORE_DATABASE_ID='bookway';
+let firebaseAuth=null,currentUser=null,authApi=null,firestoreDb=null,firestoreApi=null,isCloudLoading=false;
+let cloudSyncQueue=Promise.resolve();
 if(firebaseReady){
-  import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js').then(async appApi=>{
-    const auth=await import('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js');
+  Promise.all([
+    import(`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`),
+    import(`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-auth.js`),
+    import(`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-firestore.js`)
+  ]).then(([appApi,auth,firestore])=>{
+    const app=appApi.initializeApp(FIREBASE_CONFIG);
     authApi={...auth,...appApi};
-    firebaseAuth=auth.getAuth(appApi.initializeApp(FIREBASE_CONFIG));
+    firestoreApi=firestore;
+    firebaseAuth=auth.getAuth(app);
+    firestoreDb=firestore.getFirestore(app,FIRESTORE_DATABASE_ID);
     auth.onAuthStateChanged(firebaseAuth,user=>{
       currentUser=user||null;
       document.getElementById('googleSignInBtn').hidden=!!user;
       document.getElementById('signOutBtn').hidden=!user;
       document.getElementById('googleSignInBtn').textContent=user?(user.displayName||'已登入'):'使用 Google 登入';
-      document.getElementById('authStatus').textContent=user?`已登入：${user.displayName||user.email}`:'登入中。個人設定仍只保存在此瀏覽器，不會同步或上傳圖書館密碼。';
+      document.getElementById('authStatus').textContent=user?`已登入：${user.displayName||user.email}；正在同步圖書館清單。`:'登入後會同步圖書館清單；不會儲存密碼。';
+      isCloudLoading=!!user;
+      renderSaved();
+      if(user)void loadSavedLibrariesFromCloud(user);
     });
-  }).catch(err=>{console.error('Firebase initialization failed',err);document.getElementById('authStatus').textContent='Firebase 尚未完成設定，請稍後再試。'});
+  }).catch(err=>{console.error('Firebase initialization failed',err);document.getElementById('authStatus').textContent='Firebase 初始化失敗，請稍後再試。'});
 }
 const signInButton=document.getElementById('googleSignInBtn');
 signInButton.addEventListener('click',async()=>{
@@ -89,10 +99,89 @@ signInButton.addEventListener('click',async()=>{
   catch(err){console.error(err);document.getElementById('authStatus').textContent=err.code==='auth/unauthorized-domain'?'此網站網域尚未加入 Firebase 授權網域。':`登入未完成：${err.message||err.code}`}
 });
 document.getElementById('signOutBtn').addEventListener('click',async()=>{if(firebaseAuth&&authApi)await authApi.signOut(firebaseAuth)});
-const STORAGE_KEY='bookway-library-settings-v1';function storageKey(){return currentUser?'bookway-library-settings-v1:'+currentUser.uid:STORAGE_KEY}function getSaved(){try{const x=JSON.parse(localStorage.getItem(storageKey())||'[]');return Array.isArray(x)?x:[]}catch{return []}}function setSaved(x){localStorage.setItem(storageKey(),JSON.stringify(x))}function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
-function renderSaved(){const arr=getSaved();document.getElementById('savedList').innerHTML=arr.length?arr.map(x=>`<div class="saved-row"><div><strong>${escapeHtml(x.name)}</strong><p>${escapeHtml(x.account||'尚未填寫帳號格式提示')}${x.hint?' · '+escapeHtml(x.hint):''}</p></div><div><button data-edit="${escapeAttr(x.id)}">編輯</button><button class="delete" data-delete="${escapeAttr(x.id)}">刪除</button></div></div>`).join(''):`<div class="empty" style="padding:21px"><strong>尚未加入常用圖書館</strong>新增登入入口和提示，之後更容易找到。</div>`;document.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editSaved(b.dataset.edit)));document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>{setSaved(getSaved().filter(x=>x.id!==b.dataset.delete));renderSaved();toast('已刪除圖書館設定')}))}
-function showEditor(x={}){document.getElementById('editTitle').textContent=x.id?'編輯圖書館':'新增圖書館';document.getElementById('editId').value=x.id||'';document.getElementById('libName').value=x.name||'';document.getElementById('libUrl').value=x.url||'';document.getElementById('accountFormat').value=x.account||'';document.getElementById('personalHint').value=x.hint||'';openModal('editModal')}function editSaved(id){const x=getSaved().find(a=>a.id===id);if(x)showEditor(x)}document.getElementById('addLibrary').addEventListener('click',()=>showEditor());document.getElementById('libraryForm').addEventListener('submit',e=>{e.preventDefault();const id=document.getElementById('editId').value||crypto.randomUUID();const record={id,name:document.getElementById('libName').value.trim(),url:document.getElementById('libUrl').value.trim(),account:document.getElementById('accountFormat').value.trim(),hint:document.getElementById('personalHint').value.trim()};const all=getSaved(),idx=all.findIndex(x=>x.id===id);if(idx>=0)all[idx]=record;else all.push(record);setSaved(all);closeModal(document.getElementById('editModal'));renderSaved();toast('設定已儲存在此瀏覽器')});
-document.getElementById('exportBtn').addEventListener('click',()=>{const data={format:'bookway-library-settings',version:1,exportedAt:new Date().toISOString(),libraries:getSaved()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bookway-library-backup.json';a.click();URL.revokeObjectURL(a.href);document.getElementById('backupStatus').textContent='備份檔已下載。請妥善保管；檔案包含你的個人提示。'});document.getElementById('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text()),arr=Array.isArray(data)?data:data.libraries;if(!Array.isArray(arr)||arr.some(x=>!x||typeof x.name!=='string'||typeof x.url!=='string'))throw new Error('格式錯誤');const clean=arr.map(x=>({id:typeof x.id==='string'?x.id:crypto.randomUUID(),name:x.name,url:x.url,account:typeof x.account==='string'?x.account:'',hint:typeof x.hint==='string'?x.hint:''}));setSaved(clean);document.getElementById('backupStatus').textContent=`成功匯入 ${clean.length} 筆圖書館設定。`;toast('備份還原完成');}catch{document.getElementById('backupStatus').textContent='無法讀取這個備份檔，請確認檔案格式正確。';}e.target.value=''});
+const STORAGE_KEY='bookway-library-settings-v1';
+const USER_STORAGE_PREFIX='bookway-library-settings-v1:';
+const MAX_SAVED_LIBRARIES=200;
+function storageKey(){return currentUser?USER_STORAGE_PREFIX+currentUser.uid:STORAGE_KEY}
+function readSavedKey(key){try{const x=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(x)?x:[]}catch{return []}}
+function getSaved(){return readSavedKey(storageKey())}
+function normalizeLibraryRecord(x){
+  if(!x||typeof x.name!=='string'||typeof x.url!=='string')throw new Error('圖書館名稱或網址格式錯誤');
+  const id=typeof x.id==='string'&&/^[A-Za-z0-9_-]{1,100}$/.test(x.id)?x.id:crypto.randomUUID();
+  const record={id,name:x.name.trim(),url:x.url.trim(),account:typeof x.account==='string'?x.account.trim():'',hint:typeof x.hint==='string'?x.hint.trim():''};
+  if(!record.name||record.name.length>120||record.url.length>2048||!/^https?:\/\/[^\s/?#]+(?:[/?#].*)?$/i.test(record.url)||record.account.length>200||record.hint.length>1000)throw new Error('圖書館資料超出可儲存格式');
+  return record;
+}
+function validateSavedRecords(records){if(!Array.isArray(records)||records.length>MAX_SAVED_LIBRARIES)throw new Error(`最多可儲存 ${MAX_SAVED_LIBRARIES} 間圖書館`);return records.map(normalizeLibraryRecord)}
+function cloudCollection(uid){return firestoreApi.collection(firestoreDb,'users',uid,'libraries')}
+async function syncCloudChanges(uid,previousRecords,nextRecords,replaceAll=false){
+  if(!firestoreDb||!firestoreApi)throw new Error('Firestore 尚未準備完成');
+  const previous=new Map(validateSavedRecords(previousRecords).map(record=>[record.id,record]));
+  const next=new Map(validateSavedRecords(nextRecords).map(record=>[record.id,record]));
+  const batch=firestoreApi.writeBatch(firestoreDb);
+  let hasWrites=false;
+  if(replaceAll){
+    // Backup import intentionally replaces the signed-in account's full list.
+    const existing=await firestoreApi.getDocs(cloudCollection(uid));
+    if(currentUser?.uid!==uid)throw new Error('登入帳號已切換');
+    existing.docs.forEach(snapshot=>{if(!next.has(snapshot.id)){batch.delete(snapshot.ref);hasWrites=true}});
+  }else{
+    previous.forEach((record,id)=>{if(!next.has(id)){batch.delete(firestoreApi.doc(firestoreDb,'users',uid,'libraries',id));hasWrites=true}});
+  }
+  next.forEach((record,id)=>{
+    const old=previous.get(id);
+    if(replaceAll||!old||old.name!==record.name||old.url!==record.url||old.account!==record.account||old.hint!==record.hint){
+      batch.set(firestoreApi.doc(firestoreDb,'users',uid,'libraries',id),{name:record.name,url:record.url,account:record.account,hint:record.hint});
+      hasWrites=true;
+    }
+  });
+  if(currentUser?.uid!==uid)throw new Error('登入帳號已切換');
+  if(hasWrites)await batch.commit();
+}
+function queueCloudSync(uid,previousRecords,nextRecords,replaceAll=false){
+  const previous=validateSavedRecords(previousRecords),next=validateSavedRecords(nextRecords);
+  const task=cloudSyncQueue.catch(()=>{}).then(()=>syncCloudChanges(uid,previous,next,replaceAll));
+  cloudSyncQueue=task;
+  return task;
+}
+async function setSaved(records,replaceAll=false){
+  const valid=validateSavedRecords(records);
+  const previous=getSaved();
+  localStorage.setItem(storageKey(),JSON.stringify(valid));
+  if(!currentUser||!firestoreDb)return true;
+  try{await queueCloudSync(currentUser.uid,previous,valid,replaceAll);return true}
+  catch(err){console.error('Firestore library sync failed',err);return false}
+}
+async function loadSavedLibrariesFromCloud(user){
+  const uid=user.uid,userKey=USER_STORAGE_PREFIX+uid;
+  isCloudLoading=true;
+  try{
+    const snapshot=await firestoreApi.getDocs(cloudCollection(uid));
+    if(currentUser?.uid!==uid)return;
+    const remote=snapshot.docs.map(item=>normalizeLibraryRecord({...item.data(),id:item.id}));
+    if(remote.length){localStorage.setItem(userKey,JSON.stringify(remote));document.getElementById('authStatus').textContent=`已登入：${user.displayName||user.email}；圖書館清單已同步。`;isCloudLoading=false;renderSaved();return}
+    const localById=new Map();
+    [...readSavedKey(userKey),...readSavedKey(STORAGE_KEY)].forEach(item=>{const record=normalizeLibraryRecord(item);localById.set(record.id,record)});
+    const local=[...localById.values()];
+    if(local.length)await queueCloudSync(uid,[],local);
+    if(currentUser?.uid!==uid)return;
+    localStorage.setItem(userKey,JSON.stringify(local));
+    if(local.length)localStorage.removeItem(STORAGE_KEY);
+    document.getElementById('authStatus').textContent=`已登入：${user.displayName||user.email}；圖書館清單已同步。`;
+    isCloudLoading=false;
+    renderSaved();
+  }catch(err){
+    console.error('Firestore library load failed',err);
+    if(currentUser?.uid!==uid)return;
+    document.getElementById('authStatus').textContent=`已登入：${user.displayName||user.email}；雲端清單暫時無法載入，先顯示本機資料。`;
+    isCloudLoading=false;
+    renderSaved();
+  }
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function renderSaved(){if(currentUser&&isCloudLoading){document.getElementById('savedList').innerHTML='<div class="empty" style="padding:21px">正在載入雲端圖書館清單…</div>';return}const arr=getSaved();document.getElementById('savedList').innerHTML=arr.length?arr.map(x=>`<div class="saved-row"><div><strong>${escapeHtml(x.name)}</strong><p>${escapeHtml(x.account||'尚未填寫帳號格式提示')}${x.hint?' · '+escapeHtml(x.hint):''}</p></div><div><button data-edit="${escapeAttr(x.id)}">編輯</button><button class="delete" data-delete="${escapeAttr(x.id)}">刪除</button></div></div>`).join(''):`<div class="empty" style="padding:21px"><strong>尚未加入常用圖書館</strong>新增登入入口和提示，之後更容易找到。</div>`;document.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editSaved(b.dataset.edit)));document.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',async()=>{const ok=await setSaved(getSaved().filter(x=>x.id!==b.dataset.delete));renderSaved();toast(ok?'已刪除圖書館設定並同步':'雲端同步失敗，刪除已保存在此裝置')}))}
+function showEditor(x={}){if(currentUser&&isCloudLoading){toast('雲端清單仍在載入，請稍候');return}document.getElementById('editTitle').textContent=x.id?'編輯圖書館':'新增圖書館';document.getElementById('editId').value=x.id||'';document.getElementById('libName').value=x.name||'';document.getElementById('libUrl').value=x.url||'';document.getElementById('accountFormat').value=x.account||'';document.getElementById('personalHint').value=x.hint||'';openModal('editModal')}function editSaved(id){const x=getSaved().find(a=>a.id===id);if(x)showEditor(x)}document.getElementById('addLibrary').addEventListener('click',()=>showEditor());document.getElementById('libraryForm').addEventListener('submit',async e=>{e.preventDefault();if(currentUser&&isCloudLoading){toast('雲端清單仍在載入，請稍候再儲存');return}const id=document.getElementById('editId').value||crypto.randomUUID();const record={id,name:document.getElementById('libName').value.trim(),url:document.getElementById('libUrl').value.trim(),account:document.getElementById('accountFormat').value.trim(),hint:document.getElementById('personalHint').value.trim()};const all=getSaved(),idx=all.findIndex(x=>x.id===id);if(idx>=0)all[idx]=record;else all.push(record);const synced=await setSaved(all);closeModal(document.getElementById('editModal'));renderSaved();toast(currentUser?(synced?'設定已儲存並同步到雲端':'已儲存在此裝置，雲端同步失敗'):'設定已儲存在此瀏覽器')});
+document.getElementById('exportBtn').addEventListener('click',()=>{const data={format:'bookway-library-settings',version:1,exportedAt:new Date().toISOString(),libraries:getSaved()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bookway-library-backup.json';a.click();URL.revokeObjectURL(a.href);document.getElementById('backupStatus').textContent='備份檔已下載。請妥善保管；檔案包含你的個人提示。'});document.getElementById('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text()),arr=Array.isArray(data)?data:data.libraries;if(!Array.isArray(arr))throw new Error('格式錯誤');const clean=validateSavedRecords(arr);const synced=await setSaved(clean,true);document.getElementById('backupStatus').textContent=`成功匯入 ${clean.length} 筆圖書館設定。${currentUser?(synced?'已同步到雲端。':'雲端同步失敗，資料仍保存在此裝置。'):''}`;toast('備份還原完成');}catch(err){document.getElementById('backupStatus').textContent=err.message||'無法讀取這個備份檔，請確認檔案格式正確。';}e.target.value=''});
 render();
 </script>
 </body>
