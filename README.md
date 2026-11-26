@@ -12,6 +12,12 @@ GitHub Pages 從 `main` 分支根目錄發布：[書路 Bookway](https://yun0655
 
 Firebase Web API key 是用戶端設定值，不是伺服器密碼；資料存取由 Firebase Authentication 與 Firestore Security Rules 保護。網站不會收集圖書館密碼。
 
+## AI 找書助理
+
+首頁的「AI 找書助理」使用 Firebase AI Logic 與 Gemini 3.8 Flash，將自然語言需求整理成書目搜尋詞與實體／電子書篩選條件。讀者輸入的描述會送到 Gemini 處理，不會寫入 Bookway 的 Firestore。助理只整理搜尋條件；目前館藏仍是示範資料，不是全台即時查詢。
+
+啟用前，在本專案目錄使用已登入 Firebase 的 CLI 執行 `npx -y firebase-tools@latest init ailogic`，為 Firebase 專案啟用 AI Logic。接著在 Firebase Console 為 `Bookway Web` 設定 App Check（reCAPTCHA Enterprise），把公開 site key 填入 `index.html` 的 `FIREBASE_APPCHECK_SITE_KEY`。AI Logic 對網頁呼叫會要求有效的 App Check token；未完成這兩項設定前，助理介面會提示尚未啟用。
+
 ## 其他檔案
 - `index.html`：單頁網站原型。館藏查詢結果為示範資料，非全台即時館藏 API。
 - `library-access-guide.md`：代表性公共與大學圖書館的登入方式、資格與官方來源。
