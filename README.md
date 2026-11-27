@@ -14,12 +14,12 @@ Firebase Web API key 是用戶端設定值，不是伺服器密碼；資料存�
 
 ## AI 找書助理
 
-首頁的「AI 找書助理」使用 Firebase AI Logic 與 Gemini 3.8 Flash，將自然語言需求整理成書目搜尋詞與實體／電子書篩選條件。讀者輸入的描述會送到 Gemini 處理，不會寫入 Bookway 的 Firestore。助理只整理搜尋條件；目前館藏仍是示範資料，不是全台即時查詢。
+首頁的「AI 找書助理」使用 Firebase AI Logic 與 Gemini 3.8 Flash，將自然語言需求整理成搜尋詞。讀者輸入的描述會送到 Gemini 處理，不會寫入 Bookway 的 Firestore。套用搜尋詞後，Bookway 會提供 NBINet、MetaCat+ 與中大 One Search 的帶詞查詢連結；實際書目、館藏地與借閱狀態由各目錄顯示。
 
 啟用前，在本專案目錄使用已登入 Firebase 的 CLI 執行 `npx -y firebase-tools@latest init ailogic`，為 Firebase 專案啟用 AI Logic。接著在 Firebase Console 為 `Bookway Web` 設定 App Check（reCAPTCHA Enterprise），把公開 site key 填入 `index.html` 的 `FIREBASE_APPCHECK_SITE_KEY`。AI Logic 對網頁呼叫會要求有效的 App Check token；未完成這兩項設定前，助理介面會提示尚未啟用。
 
 ## 其他檔案
-- `index.html`：單頁網站原型。館藏查詢結果為示範資料，非全台即時館藏 API。
+- `index.html`：單頁網站。搜尋詞會帶入 NBINet 全國合作館目錄、MetaCat+ 跨館目錄與中大 One Search。Bookway 不會自行顯示或推測館藏狀態；各目錄僅涵蓋其參與館。
 - `library-access-guide.md`：代表性公共與大學圖書館的登入方式、資格與官方來源。
 - `PRD_圖書館跨館找書與登入助手.docx`：Word 格式 PRD。
 - `PRD_圖書館跨館找書與登入助手.txt`：純文字 PRD。
